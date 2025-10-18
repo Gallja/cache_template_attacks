@@ -4,7 +4,7 @@ victim
 *~
 core
 calibration
-results_first_byte/
-results_second_byte/
 cheatsheet
 libcrypto.so.1.0.0
+results/
+spy.cpp.bak
