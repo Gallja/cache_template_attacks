@@ -15,7 +15,7 @@
 #include "../cacheutils.h"
 
 // this number varies on different systems
-size_t MIN_CACHE_MISS_CYCLES = 155;
+size_t MIN_CACHE_MISS_CYCLES = 195;
 
 size_t flushandreload(void* addr, size_t duration)
 {
@@ -43,8 +43,8 @@ int main(int argc, char** argv)
 {
   if (argc != 9)
     exit(!fprintf(stderr,"  usage: ./spy <threshold> <probeduration> <addressrange> <perms> <offset> <dev> <inode> <filename>\n"
-                 "example: ./spy 155 200             400000-489000  --    0        -- -- /usr/bin/gedit\n"));
-  MIN_CACHE_MISS_CYCLES = 155;
+                 "example: ./spy 195 200             400000-489000  --    0        -- -- /usr/bin/gedit\n"));
+  MIN_CACHE_MISS_CYCLES = 195;
   if (!sscanf(argv[1],"%lu",&MIN_CACHE_MISS_CYCLES))
     exit(!printf("threshold error\n"));
   size_t duration = 0;
