@@ -75,7 +75,7 @@ To successfully complete the *profiling* phase, the initial encryptions run shou
 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
 ```
 
-In this phase, the goal is to observe 64 consecutive offsets showing a "*diagonal pattern*" and to understand the range used during the encryption; here's an example of profiling the first key byte with `NUMBER_OF_ENCTRYPTION` = 1200:  
+In this phase, the goal is to observe 64 consecutive offsets showing a "*diagonal pattern*" and to understand the range used during the encryption; here's an example of profiling the first key byte with `NUMBER_OF_ENCTRYPTION` = 2100:  
 ```
 0x16e540,2100,1925,1924,1923,1949,1928,1934,1933,1921,1926,1926,1900,1921,1942,1938,1933
 0x16e580,1925,2100,1929,1922,1917,1924,1908,1945,1916,1911,1931,1935,1945,1928,1942,1938
@@ -101,7 +101,7 @@ Obviously, it's important to have a pattern with 2100 cycles along the diagonal,
 ### Manual attack - Exploitation phase
 Subsequently, you can monitor addresses from the profile to derive information about secret keys.
 
-In the *expoitation* phase, the spy tool must trigger encryptions itself using the realistic key - comment out the dummy key (or replace/add a realistic key) and run the encryptions. After 64 encryptions, the upper 4 bits of each key byte can be trivially determined.  
+In the *exploitation* phase, the spy tool must trigger encryptions itself using the realistic key - comment out the dummy key (or replace/add a realistic key) and run the encryptions. After 64 encryptions, the upper 4 bits of each key byte can be trivially determined.  
 
 The following lines show an example of output for the first key byte (in fact we can see the same offsets of the previous example):  
 ```
@@ -126,7 +126,7 @@ The following lines show an example of output for the first key byte (in fact we
 To perform the attack manually, repeat this process for each key byte; after completing all runs you will obtain the upper 4 bits of every key byte. Note that if you proceed manually you will also need to appropriately modify the corresponding sections of `spy.cpp` between runs (for example toggling the dummy/real key, adjusting the target byte index, ecc...). If you prefer to automate the process, see the following section.
 
 ### Semi-automatic attack
-If you prefer to test `spy.cpp` atomatically, you can configure `libcrypto.so.1.0.0` as described above and then run the tool:
+If you prefer to test `spy.cpp` semi-atomatically, you can configure `libcrypto.so.1.0.0` as described above and then run the tool:
 ```
 cd profiling_aes_example
 python3 run_attack.py
