@@ -101,7 +101,7 @@ Obviously, it's important to have a pattern with 2100 cycles along the diagonal,
 ### Manual attack - Exploitation phase
 Subsequently, you can monitor addresses from the profile to derive information about secret keys.
 
-In the expoitation phase, the spy tool must trigger encryptions itself using the realistic key - comment out the dummy key (or replace/add a realistic key) and run the encryptions. After 64 encryptions, the upper 4 bits of each key byte can be trivially determined.  
+In the *expoitation* phase, the spy tool must trigger encryptions itself using the realistic key - comment out the dummy key (or replace/add a realistic key) and run the encryptions. After 64 encryptions, the upper 4 bits of each key byte can be trivially determined.  
 
 The following lines show an example of output for the first key byte (in fact we can see the same offsets of the previous example):  
 ```
@@ -138,3 +138,14 @@ Of course, we know that OpenSSL does not use a T-Table-based AES implementation 
 
 
 That's it, now it's up to you to find out which of your software leaks data and how it could be exploited. I hope it helps you closing these leaks.
+
+### Output interpretation
+The interpretation of the output files is straightforward: the *profiling* phase yields the correct 64 offset range we are interested in, and the *exploitation* phase shows the cycle counts in the columns that allow us to infer the 4 Most-Significant Bits of each key byte.  
+
+T-tables work such that an entry corresponds to $T[K_i \oplus P_i]$ (where $K_i$ is a single key byte and $P_i$ is a single plaintext byte). Knowing only the table index and the plaintext byte makes it possible to deduce the desired information about a secret key.  
+
+Using the example above, for the first key byte we know that `0x16e540` corresponds to index $0$ of the used T-table (offset deduced during profiling), while the highest cycle count ($2100$) from the exploitation output appears in column 6. Since the plaintext byte increases by 16 for each column (starting from $0$), the plaintext byte at column $6$ is $16 \cdot 5 = 80_{10} = 0x50$. Because we are only interested in the upper 4 bits, we consider only $0x5$.  
+
+Now, given the **_XOR_** operation in this AES implementation, we can easily deduce that $0x0 \oplus 0x5 = 0x5$, which corresponds to the upper 4 bits of the real key used in this test.  
+
+The same principle can be applied to all identified T-table entries, up to 64.
