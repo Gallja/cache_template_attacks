@@ -75,7 +75,7 @@ To successfully complete the *profiling* phase, the initial encryptions run shou
 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
 ```
 
-In this phase, the goal is to observe 64 consecutive offsets showing a "*diagonal pattern*" and to understand the range used during the encryption; here's an example of profiling the first key byte with `NUMBER_OF_ENCTRYPTION` = 1200:  
+In this phase, the goal is to observe 64 consecutive offsets showing a "*diagonal pattern*" and to understand the range used during the encryption; here's an example of profiling the first key byte with `NUMBER_OF_ENCTRYPTION` = 2100:  
 ```
 0x16e540,2100,1925,1924,1923,1949,1928,1934,1933,1921,1926,1926,1900,1921,1942,1938,1933
 0x16e580,1925,2100,1929,1922,1917,1924,1908,1945,1916,1911,1931,1935,1945,1928,1942,1938
